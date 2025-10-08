@@ -1,0 +1,150 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Отчет по лабораторной работе</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Отчет по лабораторной работе</h1>
+    </div>
+    <div>
+        <h2>Создать репозиторий github (или аналог), настроить пару ключей для доступа</h2>
+        <ol>
+        <li>Создали аккаунт Dipper221 на github.</li>
+        <li>Создали репозиторий my_dz1 в нашем аккаунте.</li>
+        <li>В репозитории размещен один файл README.md</li>
+ 
+    <img src="img/image001.png" alt="Создание репозитория">
+    <li>На компьютере установили программу Git Bash v.2.51.0-64-bit доступную по <a href="https://github.com/git-for-windows/git/releases/download/v2.51.0.windows.2/Git-2.51.0.2-64-bit.exe"> ссылке</a>   </li> 
+    <img src="img/image002.png" alt="Установка Git BAsh">
+
+    <li>Осуществили начальную настройку параметров программы Git Bash, просмотрели содержимое текущей папки</li>
+    <div class="kod">
+     git config --global user.name "Dipper221"<br>
+     git config --global user.email "gultyayev00@mail.ru"<br>
+     ls<br> 
+    </div>
+    <img src="img/image003.png" alt="Просмотр содержимого папки"> <br>
+    <p>Создали новую папку my_dz1, инициализировали её как локальный репозиторий</p>
+    <div class="kod">
+    mkdir my_dz1<br>
+    cd my_dz1<br>
+    git init<br>
+       </div>
+       <img src="img/image004.png" alt="Инициализация репозитория"> <br><br>
+    <li> Создали пару SSH-ключей (приватный – SSH1, публичный – SSH1.pub)</li>
+    <div class="kod">ssh-keygen -t ed25519</div>
+    <img src="img/image005.png" alt="Создание ключей"> <br><br>   
+
+   <li> Добавили на компьютере в файл \etc\ssh_config следующую запись:</li>
+   <div class="kod">
+           Host git@github.com:Dipper221/my_dz1.git <br>  
+            HostName git@github.com:Dipper221/my_dz1.git<br>  
+            User Dipper221<br>  
+            IdentityFile C:\Users\lilshizik\.ssh\id_ed25519<br>  
+            IdentitiesOnly yes<br>  
+   </div>
+    <p>Также подключили созданный приватный ключ</p> 
+    <img src="img/image006.png" alt="Подключение приватного ключа"> <br><br>   
+    <li>Добавили в раздел <a href="https://github.com/settings/keys""> https://github.com/settings/keys </a>  информацию для SSH keys, содержащуюся в ранее созданном файле SSH1.pub</li>
+    <img src="img/image007.png" alt="Подключение публичного ключа"> <br><br>   
+    <li>Подключили локальный репозиторий к GitHub </li> 
+    <div class="kod">
+    git remote add origin git@github.com:Dipper221/my_dz1.git
+    </div>
+    <li> Клонировали репозиторий my_dz1 на компьютер </li>
+    <div class="kod">
+    git clone git@github.com:Dipper221/my_dz1.git
+</div>
+<img src="img/image008.png" alt="Клонирование репозитория на компьютер"> <br>
+<p>На компьютере появилась папка с файлом README.md</p>
+<img src="img/image009.png" alt="Файл на компьютере"> <br> <br> 
+</ol>
+</div>
+    
+<div>
+    <h2>Конфигурирование устройств сети</h2>
+<ol>
+    <li>Настроить PC</li>
+    <p>Для настройки компьютеров, выбираем соответствующий хост. На вкладке Config в разделе FastEthernet в полях Ipv4 Address и Subnet Mask прописываем необходимые сетевые конфигурации. Далее выбираем в этой же вкладке раздел Settings и в поле Default Gateway указываем адрес соответствующего интерфейса маршрутизатора, к которому подключен коммутатор.
+    Для host_1:</p>
+    <img src="img/image010.png" > 
+    <img src="img/image011.png" > <br> 
+   <p> Для host_2:</p>
+   <img src="img/image012.png" > 
+   <img src="img/image013.png" > <br> 
+   <p> Для host_3:</p>
+   <img src="img/image014.png" > 
+   <img src="img/image015.png" > <br> 
+   <p> Для host_4:</p>
+   <img src="img/image016.png" > 
+   <img src="img/image017.png" > <br> 
+
+<li> Настроить маршрутизатор R1</li>
+<p>Нажимаем на изображение маршрутизатора. Выбираем вкладку CLI. Нажимаем Enter и набираем следующую последовательность команд для конфигурирования интерфейсов маршрутизатора:</p>
+<div class="kod">
+    //для входа в маршрутизатор<br> 
+    Router>enable<br> 
+    //для входа в режим конфигурирования маршрутизатора<br> 
+    Router#config terminal<br> 
+    Enter configuration commands, one per line. End with CNTL/Z.<br> 
+    // изменение имени хоста<br> 
+    Router(config)#hostname mydz1<br> 
+    mydz1(config)#<br> 
+    // выбор интерфейса маршрутизатора<br> 
+    mydz1(config)#interface fa0/0<br> 
+    //установка IP-адреса интерфейса<br> 
+    mydz1(config-if)#ip address 192.168.2.1 255.255.255.0<br> 
+    // запрет выключения интерфейса<br> 
+    mydz1(config-if)#no shutdown<br> 
+    // выход из конфигурирования интерфейса<br> 
+    mydz1(config-if)#exit<br> 
+    // выбор нового интерфейса маршрутизатора<br> 
+    mydz1(config)#interface fa0/1<br> 
+    // установка IP-адреса интерфейса<br> 
+    mydz1(config-if)#ip address 172.16.2.1 255.255.0.0<br> 
+    // запрет выключения интерфейса<br> 
+    mydz1(config-if)#no shutdown<br> 
+    // выход из конфигурирования интерфейса<br> 
+    mydz1(config-if)#exit<br> 
+    //выход из режима конфигурирования маршрутизатора<br> 
+    mydz1(config)#exit<br> 
+    mydz1#<br> 
+    %SYS-5-CONFIG_I: Configured from console by console<br> 
+    //запись текущей конфигурации в память маршрутизатора<br> 
+    mydz1#write memory<br> 
+    Building configuration...<br> 
+    [OK]<br> 
+
+    <p>В результате получим:</p>
+    <img src="img/image018.png" > <br> 
+<li>Проверка связности между двумя сегментами сети командой ping</li>
+<p>Выполним пинг с host_1 до всех других устройств</p>
+<img src="img/image019.png" > <br> 
+<p>Выполним пинг с host_3 до всех других устройств:</p>
+<img src="img/image020.png" > <br> 
+<p>Видно, что все пинги проходят. Все устройства связаны между собой!</p>
+</div>
+
+<div>
+    <h2>Создание веб-страниц с использованием HTML и CSS</h2>
+<p>CSS (Cascading Style Sheets) показывает браузеру, какие свойства есть у определенных элементов на странице: шрифт текста, размер изображений и блоков.
+    <br>
+    HTML-элементы — основа языка HTML. 
+    Каждый HTML-документ состоит из дерева HTML-элементов и текста. Каждый HTML-элемент обозначается начальным (открывающим) и конечным (закрывающим) тегом. Открывающий и закрывающий теги содержат имя элемента.
+    </p>
+
+
+
+
+
+
+
+</ol>
+
+
+
+</div>
+</body>
+</html>
